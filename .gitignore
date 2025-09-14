@@ -1,43 +1,19 @@
-# Build results
-bin/
-obj/
+# .gitignore (at repo root)
+**/bin/
+**/obj/
+**/.vs/
+**/.idea/
+**/.vscode/
 out/
-
-# Visual Studio
-.vs/
 *.user
 *.suo
-*.userosscache
-*.sln.docstates
-
-# Rider / VS Code
-.idea/
-.vscode/
-
-# Logs
 *.log
 *.tlog
-
-# Test results
-*.trx
-*.coverage
-*.coveragexml
 TestResults/
-
-# NuGet
+*.trx
+*.coverage*
 *.nupkg
 *.snupkg
-*.nuspec
 packages/
-*.nuget.props
-*.nuget.targets
-
-# Others
-*.cache
-*.dbmdl
-*.bak
-*.swp
 *.tmp
-
-# Publish output
-wwwroot/dist/
+*.cache
