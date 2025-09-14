@@ -1,0 +1,80 @@
+/* === Hero (component) === */
+/* Uses global tokens from site.css (:root). No globals defined here. */
+
+/* Local hero variables (scoped to the component) */
+.header-hero{
+    --hero-fade: 1200ms;               /* cross-fade duration */
+    --hero-slide-duration: 9000ms;     /* full cycle: zoom in -> zoom out */
+    --hero-ease: cubic-bezier(.3,0,.2,1);
+    --hero-zoom-max: 1.08;
+
+    position: relative;
+    isolation: isolate;
+    min-height: clamp(320px, 45vh, 560px);
+    overflow: hidden;
+}
+
+/* Stage & slides */
+.hero-carousel{ position:absolute; inset:0; z-index:0; }
+.hero-slide{
+    position:absolute; inset:0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0; z-index: 0;
+    transition: opacity var(--hero-fade) var(--hero-ease);
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+.hero-slide[data-active="true"]{
+    opacity: 1; z-index: 1;
+    animation: hero-yo var(--hero-slide-duration) ease-in-out forwards;
+}
+
+/* Zoom in (to ~1.08) then back to 1.0 before we cross-fade */
+@keyframes hero-yo{
+    0%   { transform: scale(1); }
+    70%  { transform: scale(var(--hero-zoom-max)); }
+    100% { transform: scale(1); }
+}
+
+/* Readability overlay */
+.hero-gradient::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(
+            to top,
+            rgba(0,0,0,.40) 0%,
+            rgba(0,0,0,.18) 45%,
+            rgba(0,0,0,.06) 100%
+    );
+    pointer-events:none;
+}
+
+/* CTA placement (left, within container width) */
+.cta-wrap{
+    position: relative; z-index: 2;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    padding-block: clamp(var(--space-3), 5vw, var(--space-5));
+}
+.cta-panel{
+    max-width: 720px;
+    background: rgba(20,20,20,.55);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: var(--radius);
+    backdrop-filter: blur(6px) saturate(1.05);
+    -webkit-backdrop-filter: blur(6px) saturate(1.05);
+    padding: clamp(var(--space-2), 3vw, var(--space-4));
+}
+.cta-title{ margin:0 0 .25rem 0; font-size: clamp(1.5rem, 3.2vw, 2.25rem); }
+.cta-sub{ margin:0 0 var(--space-2) 0; color: #f2efe9; max-width: 60ch; }
+.cta-actions{ display:flex; gap:.75rem; flex-wrap:wrap; }
+
+/* Accessibility: reduce motion if requested */
+@media (prefers-reduced-motion: reduce){
+    .hero-slide{ transition: opacity 400ms linear; animation: none; }
+}

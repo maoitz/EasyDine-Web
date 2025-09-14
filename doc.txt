@@ -1,0 +1,322 @@
+LOG:
+
+Created a new ASP.NET Core MVC project named EasyDine.Web.
+Configured appsettings.json for API base URL.
+Implemented .AddHttpClient in Program.cs for dependency injection.
+
+Created the following files in the project:
+- Controllers
+    - MenusController.cs
+- Models
+    - MenuDto.cs
+- Views
+    - Menus
+        - Index.cshtml
+to test API calls and display menu items.
+        
+Due to errors when requesting the API, I created (and implemented in Program.cs) a new folder:
+- DelegatingHandlers
+    - LoggingHandler.cs
+To log request and response details.
+
+Implemented ApiResponse.cs in the Models folder to standardize API responses.
+Managed to finally get the Web app to successfully call the API and display the menu items on the Index view.
+
+Remade project folder structure to:
+- Controllers 
+- DTOs                  # Match with API project structure
+- ViewModels            # Razor binding/forms
+- Services              # typed HTTP clients
+- Extensions
+- DelegatingHandlers
+- Views
+- Models /optional
+- wwwroot               # static files (js, css, images)
+
+Implemented HttpClientExtensions.cs in Extensions folder for cleaner ApiResponse.cs integration.
+
+Created TableDto, TablesController, and corresponding views to manage tables.
+Created TableAvailabilityDto, AvailabilityController, and views to manage availability.
+Created AvailabilitySearchVm for searching availability.
+
+Updated appsettings.json with API base URL ("https://localhost:5027/api/")
+Updated controllers to match base URL.
+
+Added "Paths": in appsettings.json to manage API endpoints.
+
+Ran into some problems working the Availability logic and setup, will get back to it later.
+WIP:
+- AvailabilitySearchVm
+- AvailabilityController
+- Views/Availability/Index.cshtml
+- Views/Availability/Results.cshtml     # Rename to SearchResults.cshtml ?
+- TableAvailabilityDto
+
+Small break: Get started on landing page and navigation bar when back.
+
+Re-styled navbar in Views/Shared/_Layout.cshtml
+Configured Views/Home/Index.cshtml as landing page.
+Updated HomeController.cs to return the Index view.
+Added .hero class in wwwroot/css/site.css for landing page styling.
+
+Updated css styling in site.css for better appearance:
+- :root variables for colors and fonts
+- body styling
+- .navbar styling
+- .hero section styling
+- .btn-primary styling
+
+Created /images/dishes in wwwroot for future use.
+Configured "HeroSlides" in appsettings.json for future carousel implementation.
+Added placeholder images in wwwroot/images/dishes for hero section.
+Updated HomeController.cs to read HeroSlides from configuration and pass to view.
+
+Updated Views/Home/Index.cshtml to display hero section with images and text.
+Updated site.css for new styling.
+Updated nav in _Layout.cshtml to match new design.
+Added custom link to Google Fonts in _Layout.cshtml.
+
+Found a flicker problem with heroCarousel due to multiple overlays.:
+- Refactored hero section in Index.cshtml to use a single overlay instead.
+- Updated site.css to fix flicker issue.
+FIXED!
+
+Updated "single overlay" section in Views/Home/Index.cshtml to add a cta-panel for better readability.
+- Added styling in site.css for .hero-cta-panel.
+Tweaked .hero-cta in site.css to keep text to the left, for better readability.
+
+Changed heroCarousel interval to 3s from 5s in Index.cshtml.
+Implemeted cinematic animation for the hero-carousel items in site.css to increase visual appeal and immersiveness.
+Changed hero-carousel item opacity transition to 1.8s from 0.5s in site.css for smoother effect.
+Changed heroCarousel interval back to 5s from 3s in Index.cshtml.
+
+Added wood-texture.jpg to wwwroot/images for future navbar background.
+Implemented .navbar background image in site.css for better visual appeal.
+- Used wood-texture.jpg as background image.
+- Added rgba overlay for better text visibility.
+
+Continued work done on the navbar in Views/Shared/_Layout.cshtml to include current/future routes:
+- Home
+- Menu
+- Bookings
+- About
+- Contact
+Updated footer in _Layout.cshtml to match new design.
+Added Bootstrap icons CDN link in _Layout.cshtml.
+Polished footer styling in site.css.
+
+Footer was acting super weird, so I re-did it from scratch in _Layout.cshtml and site.css.
+Layout and spacing is kinda weird and inconsistent, will try to implement design tokens to make sure ratios are consistent.
+Updated site.css with design tokens for spacing and sizing consistency.
+Updated _Layout.cshtml with page shell structure to match new design.
+Updated Views/Home/Index.cshtml with section skeleton structure to match new design.
+Removed all custom css from site.css to start fresh.
+
+Created a header partial for better code reuse, and to mark active link with adjustables routes/labels,
+in Views/Shared/_Header.cshtml.
+Included the header partial in _Layout.cshtml.
+Moved JS from partial _Header to js/site.js for better organization.
+Updated the layout to use <partial> for header and future footer in _Layout.cshtml instead of @Html.Partial.
+
+Hamburger menu didn't work as intended, easily fixed by adjusting css in site.css.
+
+Created a footer partial for better code reuse in Views/Shared/_Footer.cshtml.
+Included the footer partial in _Layout.cshtml.
+
+Adjusted appsettings.json for new hero section design.
+Created:
+- MenuItemResponseDto
+- IApiClient, ApiClient
+- HeroViewComponent, HeroVm
+- Views/Shared/Components/Hero/Default.cshtml
+to encapsulate hero section logic and make it reusable.
+
+Registered HeroViewComponent in Program.cs which contains HeroOptions.
+Registered MemoryCache in Program.cs for caching hero section data.
+
+Implemented @await Component.InvokeAsync("Hero") in Views/Shared/_Header to render hero section.
+
+internal server error. Investigating...
+
+Found the issue, was a typo in Program.cs when registering ApiClient.
+Contiued testing, bugfixes and polishing, typos etc.
+Working fine now, except i accidentally put the hero section in the header partial, should be in the layout instead.
+Moved @await Component.InvokeAsync("Hero") from _Header.cshtml to _Layout.cshtml.
+
+Reorganized ENTIRE wwwroot/css/site.css to match new palette and design:
+- CSS reset
+- Design tokens (colors, fonts, spacing, sizes)
+- General styling
+
+Taking a break, will continue later. 
+[ BREAK ] - When back: fix home/landing page, navbar, footer, hero section (carousel).
+
+Back to work!
+Removed past Availability-related files and code.
+Updated Views/Shared/Components/Hero/Default.cshtml with new design.
+Updated site.css with new hero section design.
+Tried the placeholder images in the hero section, looks good, transition is rough though so will fix that.
+
+For documentation purposes:
+- Hero section placeholder images are stored in wwwroot/images/dishes
+- Hero section and placeholder image paths are configured in appsettings.json under "Hero"
+- When using API for images, they are stored in cache-memory for 5 minutes to reduce load time.
+
+Transition between images are kinda rough, will try to update site.css + site.js to fix that.
+Worked!
+
+Continued work on the Header:
+- Added adjustable configs in appsettings.json for "Header"
+- Created HeaderOptions.cs in Models and bound it in Program.cs
+- Added new Header-block in site.css
+- Updated _Header.cshtml to use new configs and match new design
+    - Language Selector skeleton: Wireable to cookie/middleware/resource file later
+    
+Did not like the look of the CTA in header, removed for now.
+
+Separated the css into multiple files for better organization:
+- site.css (general styles, design tokens)
+- _header.css (header/navbar styles)
+- _footer.css (footer styles)
+- _hero.css (hero section styles)
+
+Updated _Layout.cshtml to include the new css files.
+
+Full design update lets gooo!
+- Added font links to _Layout.cshtml
+- Updated design tokens in site.css for new fonts
+- Updated Views/Home/Index.cshtml for new design
+- Trimmed down footer in _footer.css and _Footer.cshtml
+
+Re-did the cards in Views/Home/Index.cshtml to match new design, including:
+- New styling using new decor css classes
+Removed paper.png and added paper-noise.png to wwwroot/images.
+Removed old, unused controllers.
+
+Created MenuPageVm in ViewModels
+Created MenuController to fetch menu items from API and pass to view
+Created Views/Menu/Index.cshtml to display menu items using MenuPageVm
+Updated nav in _Header.cshtml to include Menu link
+
+Added scrollspy to Menu/Index.cshtml for better navigation.
+Moved scrollspy to site.js
+
+Updated typos/routes to keep consistent naming conventions
+
+Got into some problem fetching menu items from API, investigating...
+Found the issue, was a typo in Program.cs when registering ApiClient.
+Also, added new query parameter to fetch menu items by "menu".
+
+Starting on the Admin Interface:
+Created DTOs/LoginResult.cs
+Extended IApiClient with AdminLoginAsync method
+Implemented AdminLoginAsync in ApiClient.cs
+
+Fixed structure and added stuff for future use:
+- New folder structure in DTOs
+- New filter for AdminAuthorizeAttribute.cs in Filters
+- New ITokenStore/TokenStore in Services
+- New AuthHeaderHandler in DelegatingHandlers
+- New AdminController and AdminMenuItemsController in Controllers
+- New ServiceCollectionExtensions in Extensions (empty)
+- New AdminLoginVm in ViewModels (empty)
+- New Views/AdminMenuItems/Index.cshtml
+
+Extended IApiClient with AdminListMenuItemsAsync method
+Implemented AdminListMenuItemsAsync in ApiClient.cs
+
+Created Admin views and ViewModels for login and menu item management
+Created AdminLoginVm in ViewModels
+Created Views/Admin/Login.cshtml for admin login
+Created Views/AdminMenuItems/Index.cshtml to display and manage menu items
+
+Created dashboard in Views/Admin/Dashboard.cshtml
+
+Extended IApiClient for admin-purpose stats methods.
+Created ViewModels/Admin/DashboardVm to hold stats data.
+Re-did the admin-stuff ApiClient interface and implementation to match new stats methods.
+Updated AdminMenuItemsController to allow CRUD operations on menu items.
+Updated Views/AdminMenuItems/Index.cshtml to include CRUD functionality.
+Bug: Clicking on menu item in dashboard redirects to /admin/login instead of /admin/menuitems, investigating...
+Fixed the issue, Changed [Authorize] to [AdminAuthorize] in AdminMenuItemsController.
+
+Expanded the Views/AdminMenuItems/ to include Create, Update, and Delete functionality for menu items.
+Created ViewModels/Admin/MenuItemEditVm.cs
+
+Removed popularity threshhold editing from AdminMenuItems/Edit.cshtml for complexity reasons.
+Will add it back later if time permits.
+
+Created AdminTablesController manage tables in the admin interface.
+Created TableEditVm in ViewModels/Admin for editing table details.
+Created Views/AdminTables/Index.cshtml to list tables.
+Created Views/AdminTables/Edit.cshtml to edit table details.
+Created Views/AdminTables/Create.cshtml to create new tables.
+Created Views/AdminTables/Delete.cshtml to delete tables.
+
+Updated IApiClient and ApiClient.cs to include admin table management methods.
+Created DTOs/TableCreateDto.cs and TableUpdateDto.cs for table creation and updating.
+Renamed TablesResponseDto to TableResponseDto for consistency.
+Implemented route in Dashboard.cshtml to access table management.
+
+Found an error with the routing in the views, investigating...
+Fixed the issue, the form-asp-action in Create and Edit were incorrectly routing to wrong Controller actions.
+
+Found a problem with the bookings flow, had to extend the API with a new composite create DTO.
+
+Created ViewModels/Admin/BookingCreateVm.cs for booking creation.
+Created DTOs/Bookings/BookingWithCustomerCreateDto.cs for composite booking creation.
+Extended IApiClient and ApiClient.cs to include AdminCreateBookingWithCustomerAsync method.
+Created AdminBookingsController to manage bookings in the admin interface.
+Created Views/AdminBookings/Create.cshtml to create new bookings, this first for testing purposes.
+Extended AdminBookingsController to include Index action to list bookings.
+Created minimal Views/AdminBookings/Index.cshtml to list bookings.
+Added route to bookings management in Dashboard.cshtml.
+
+Noticed missing dtos, created:
+- DTOs/Customers/CustomerCreateDto.cs
+- DTOs/Customers/CustomerResponseDto.cs
+- DTOs/Bookings/BookingCreateDto.cs
+
+Need to adjust the Booking-related stuff in the API project for better usability in the Web project, this includes:
+- Expose separate date + time fields in the DTOs/UI
+- Normalize in the server side to a single DateTime field
+
+Fully updated Booking logic in API. Now includes buffer time etc.
+Updated BookingCreateVm, BookingResponseDto, BookingWithCustomerCreateDto accordingly.
+Updated AdminBookingsController and Views/AdminBookings/Create.cshtml accordingly.
+Added date and time pickers in Create.cshtml for better UX.
+
+Created Options-folder and added:
+- Options/BookingUiOptions.cs for booking-related configs
+Updated appsettings.json with "BookingUi" section accordingly.
+Bound BookingUiOptions in Program.cs for dependency injection.
+Extended AdminBookingsController to use BookingUiOptions for buffer time etc.
+
+Added filtering to GetAll method in BookingsController in the API project.
+Updated ApiClient and IApiClient to include filtering parameters.
+Updated AdminBookingsController to use filtering parameters.
+Updated Views/AdminBookings/Index.cshtml to include filtering form.
+
+Created BookingEditVm in ViewModels/Admin for editing bookings.
+Created Views/AdminBookings/Edit.cshtml to edit bookings.
+Extended IApiClient and ApiClient.cs to include AdminUpdateBookingAsync method.
+Extended AdminBookingsController to include Edit actions.
+
+Created Views/AdminBookings/Delete.cshtml to delete bookings.
+Extended IApiClient and ApiClient.cs to include AdminDeleteBookingAsync method.
+Extended AdminBookingsController to include Delete actions.
+
+Started working on SEO-optimizations for Home and Menu pages.
+Added @RenderSection("Head", required: false) in _Layout.cshtml for page-specific head content.
+Updated Index.cshtml for Home and Menu to include meta tags, titles, and descriptions.
+
+TO DO:
+- Separate EasyDine.Web and EasyDine.API into different solutions. ?
+- Share DTOs between API and Web projects using EasyDine.Shared project class library.
+- Add SPA base url to appsettings.json for future React/Vue integration.
+- Separate css files for different views/components. - WIP!
+
+NOTE:
+Admin login credentials are hardcoded in the API for testing purposes:
+username: admin
+password: Admin123!

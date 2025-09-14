@@ -1,0 +1,11 @@
+.card--accent{
+    position:relative;
+}
+.card--accent::after{
+    content:"";
+    position:absolute; left:0; right:0; top:0;
+    height:4px;
+    background: var(--brand);            /* tomato stripe */
+    border-top-left-radius: calc(var(--radius) - 1px);
+    border-top-right-radius: calc(var(--radius) - 1px);
+}

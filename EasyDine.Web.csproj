@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>EasyDine.Web</RootNamespace>
+      <AssemblyName>EasyDine.Web</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Availability\index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Availability\Results.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\Menus\" />
+  </ItemGroup>
+
+</Project>

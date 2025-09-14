@@ -1,0 +1,77 @@
+@model EasyDine.Web.ViewModels.Admin.DashboardVm
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<section class="section">
+    <div class="container">
+
+        <h1 class="section-title">Admin Dashboard</h1>
+
+        <!-- Quick Stats -->
+        <div class="grid" style="margin-bottom:2rem;">
+            <div class="span-3 card">Bookings: <strong>@Model.TotalBookings</strong></div>
+            <div class="span-3 card"><a asp-controller="AdminTables" asp-action="Index" style="text-decoration:none; color:inherit;">
+                    Tables: <strong>@Model.TotalTables</strong>
+                </a>
+            </div>
+            <div class="span-3 card">
+                <a asp-controller="AdminMenuItems" asp-action="Index" style="text-decoration:none; color:inherit;">
+                    Menu Items: <strong>@Model.TotalMenuItems</strong>
+                </a>
+            </div>
+
+            <div class="span-3 card">Popular Items: <strong>@Model.PopularItemsCount</strong></div>
+        </div>
+
+        <!-- Popular Items -->
+        <h2 class="section-title">Popular Items</h2>
+        @if (!Model.PopularItems.Any())
+        {
+            <p>No popular items yet.</p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var item in Model.PopularItems)
+                {
+                    <li>@item.Name (@item.Price.ToString("C"))</li>
+                }
+            </ul>
+        }
+
+        <!-- Recent Bookings -->
+        <h2 class="section-title">Recent Bookings</h2>
+        <p>
+            <a class="btn" asp-controller="AdminBookings" asp-action="Index">Manage Bookings</a>
+        </p>
+        @if (!Model.RecentBookings.Any())
+        {
+            <p>No recent bookings.</p>
+        }
+        else
+        {
+            <table style="width:100%; margin-top:1rem;">
+                <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Table</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var b in Model.RecentBookings)
+                {
+                    <tr>
+                        <td>@b.CustomerFirstName</td>
+                        <td>@b.TableNumber</td>
+                        <td>@b.DateBooked</td>
+                        <td>@b.Status</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</section>

@@ -1,0 +1,30 @@
+@model EasyDine.Web.ViewModels.HeroVm
+
+<div class="header-hero hero-gradient" role="region" aria-label="Featured dishes">
+    <!-- Slides -->
+    <div class="hero-carousel">
+        @for (var i = 0; i < Model.Slides.Count; i++)
+        {
+            var (url, alt) = Model.Slides[i];
+            var active = i == 0;
+            <div class="hero-slide"
+                 style="background-image:url('@url');"
+                 data-active="@(active.ToString().ToLower())"
+                 aria-hidden="@( (!active).ToString().ToLower() )"
+                 role="img" aria-label="@alt"></div>
+        }
+    </div>
+
+    <!-- CTA (left, inside container) -->
+    <div class="cta-wrap">
+        <div class="container">
+            <div class="cta-panel">
+                <h1 class="cta-title">@Model.Title</h1>
+                <p class="cta-sub">@Model.Subtitle</p>
+                <div class="cta-actions">
+                    <a class="btn" href="@Model.PrimaryHref">@Model.PrimaryText</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

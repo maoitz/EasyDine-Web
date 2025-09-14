@@ -1,0 +1,95 @@
+﻿@section Head {
+  <!-- Primary SEO -->
+  <title>EasyDine – Neighborhood Trattoria | Hand-rolled pasta & seasonal Italian</title>
+  <meta name="description" content="Slow-simmered sugo, hand-rolled pasta, and bread warm from the oven. EasyDine is a cozy neighborhood trattoria serving seasonal Italian classics." />
+  <link rel="canonical" href="@Url.Action("Index", "Home", null, Context.Request.Scheme)" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="EasyDine – Neighborhood Trattoria" />
+  <meta property="og:description" content="Seasonal Italian classics in a cozy trattoria setting." />
+  <meta property="og:url" content="@Url.Action("Index", "Home", null, Context.Request.Scheme)" />
+  <meta property="og:image" content="@Url.Content("~/img/brand/og-default.jpg")" />
+  <meta property="og:image:alt" content="Fresh pasta and rustic bread at EasyDine" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EasyDine – Neighborhood Trattoria" />
+  <meta name="twitter:description" content="Seasonal Italian classics in a cozy trattoria." />
+  <meta name="twitter:image" content="@Url.Content("~/img/brand/og-default.jpg")" />
+
+  <!-- JSON-LD Schema -->
+  
+  <script type="application/ld+json">
+  {
+    "@@context": "https://schema.org",
+    "@@type": "Restaurant",
+    "name": "EasyDine",
+    "servesCuisine": "Italian",
+    "url": "@Url.Action("Index","Home",null,Context.Request.Scheme)",
+    "image": "@Url.Content("~/img/brand/og-default.jpg"))", // Replace with actual image URL
+    "priceRange": "$$",
+    "acceptsReservations": "True",
+    "openingHours": [
+      "Mo-Su 10:00-23:00"
+    ]
+  }
+  </script>
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/components/_hero.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/decor/_parchment.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/decor/_paper.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/decor/_accents.css" asp-append-version="true" />
+  <style>
+    .leaf-divider{ display:inline-flex; align-items:center; gap:.5rem; color:var(--muted); font-size:.95rem; }
+    .leaf-divider svg{ width:18px; height:18px; opacity:.8; }
+  </style>
+}
+
+@{
+  ViewData["Title"] = "EasyDine – Neighborhood Trattoria";
+}
+
+@await Component.InvokeAsync("Hero")
+
+<section class="section">
+  <div class="container">
+    <div class="grid">
+      <div class="span-12">
+        <div class="card paper-soft card--accent" style="padding: clamp(var(--space-2),3vw,var(--space-4));">
+          <div class="leaf-divider" style="margin-bottom:.5rem;">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12c7-1 9-7 16-8-1 7-7 9-8 16-4 0-7-3-8-8Z" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <span>Benvenuti a EasyDine</span>
+          </div>
+          <h1 class="section-title" style="margin-top:0;">A little taste of Italy</h1>
+          <p style="color:var(--muted); max-width:75ch; margin:0;">
+            Slow-simmered sugo, hand-rolled pasta, bread warm from the oven.
+            Simple, seasonal, neighborhood trattoria.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid">
+      <div class="span-12">
+        <div class="card paper-soft" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+          <div>
+            <strong>Table for tonight?</strong>
+            <div style="color:var(--muted)">Make a reservation or drop by—walk-ins welcome.</div>
+          </div>
+          <div style="display:flex; gap:.5rem; flex-wrap:wrap;">
+            <a class="btn" href="/bookings" aria-label="Book a table at EasyDine">Book a table</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

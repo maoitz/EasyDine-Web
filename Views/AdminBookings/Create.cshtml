@@ -1,0 +1,95 @@
+@model EasyDine.Web.ViewModels.Admin.BookingCreateVm
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Create Booking";
+    var tables = ViewBag.Tables as List<SelectListItem> ?? new();
+    var timeSlots = ViewBag.TimeSlots as List<SelectListItem> ?? new();
+    var selectedDate = (string)(ViewBag.SelectedDate ?? DateTime.Today.ToString("yyyy-MM-dd"));
+    var selectedTime = (string)(ViewBag.SelectedTime ?? "10:00");
+    var minDur = (int)(ViewBag.MinDuration ?? 30);
+    var maxDur = (int)(ViewBag.MaxDuration ?? 240);
+}
+
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">Create Booking</h1>
+
+    <form asp-action="Create" method="post" class="card">
+      @Html.AntiForgeryToken()
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+      <h3>Customer</h3>
+      <div>
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+      </div>
+      <div>
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+      </div>
+      <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" type="email" />
+        <span asp-validation-for="Email"></span>
+      </div>
+      <div>
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" />
+      </div>
+
+      <h3 style="margin-top:1rem;">Booking</h3>
+      <div>
+        <label asp-for="TableId"></label>
+        <select asp-for="TableId" asp-items="tables"></select>
+        <span asp-validation-for="TableId"></span>
+      </div>
+
+      <!-- Date + Time (separate) -->
+      <div>
+        <label>Date</label>
+        <input type="date" name="Date" value="@selectedDate" />
+      </div>
+      <div>
+        <label>Time</label>
+        <select name="Time">
+          @foreach (var slot in timeSlots)
+          {
+              <option value="@slot.Value" selected="@(slot.Value == selectedTime ? "selected" : null)">
+                  @slot.Text
+              </option>
+          }
+        </select>
+        <span asp-validation-for="DateBooked"></span>
+      </div>
+
+      <div>
+        <label asp-for="DurationMinutes"></label>
+        <input asp-for="DurationMinutes" type="number" min="@minDur" max="@maxDur" step="15" />
+        <span asp-validation-for="DurationMinutes"></span>
+        <small>Allowed: @minDur–@maxDur minutes</small>
+      </div>
+
+      <div>
+        <label asp-for="TotalGuests"></label>
+        <input asp-for="TotalGuests" type="number" min="1" />
+        <span asp-validation-for="TotalGuests"></span>
+      </div>
+
+      <div>
+        <label asp-for="Status"></label>
+        <select asp-for="Status">
+          <option>Pending</option>
+          <option>Confirmed</option>
+          <option>Cancelled</option>
+        </select>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <button type="submit" class="btn">Save</button>
+        <a asp-controller="Admin" asp-action="Dashboard" class="btn">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>

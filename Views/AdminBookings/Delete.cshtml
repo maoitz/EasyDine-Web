@@ -1,0 +1,31 @@
+@model EasyDine.Web.DTOs.Bookings.BookingResponseDto
+@{
+    ViewData["Title"] = "Delete Booking";
+    var endTime = Model.DateBooked.AddMinutes(Model.DurationMinutes);
+}
+
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Delete Booking</h1>
+        <div class="card">
+            <p>Are you sure you want to delete this booking?</p>
+
+            <ul>
+                <li><strong>Customer:</strong> @Model.CustomerFirstName @Model.CustomerLastName</li>
+                <li><strong>Table:</strong> @Model.TableNumber</li>
+                <li><strong>Date:</strong> @Model.DateBooked.ToString("yyyy-MM-dd")</li>
+                <li><strong>Start:</strong> @Model.DateBooked.ToString("HH\\:mm")</li>
+                <li><strong>End:</strong> @endTime.ToString("HH\\:mm")</li>
+                <li><strong>Guests:</strong> @Model.TotalGuests</li>
+                <li><strong>Status:</strong> @Model.Status</li>
+            </ul>
+
+            <form asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn">Delete</button>
+                <a asp-action="Index" class="btn">Cancel</a>
+            </form>
+        </div>
+    </div>
+</section>

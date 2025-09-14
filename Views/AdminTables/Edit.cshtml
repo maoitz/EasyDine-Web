@@ -1,0 +1,26 @@
+@model EasyDine.Web.ViewModels.Admin.TableEditVm
+@{
+    ViewData["Title"] = "Edit Table";
+}
+
+<h1 class="section-title">@ViewData["Title"]</h1>
+
+<form asp-action="Edit" method="post" class="card">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label asp-for="Number"></label>
+        <input asp-for="Number" type="number" />
+        <span asp-validation-for="Number"></span>
+    </div>
+
+    <div>
+        <label asp-for="Seats"></label>
+        <input asp-for="Seats" type="number" />
+        <span asp-validation-for="Seats"></span>
+    </div>
+
+    <button type="submit" class="btn">Save</button>
+    <a asp-action="Index" class="btn">Cancel</a>
+</form>

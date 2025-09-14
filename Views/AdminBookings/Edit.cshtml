@@ -1,0 +1,79 @@
+@model EasyDine.Web.ViewModels.Admin.BookingEditVm
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Edit Booking";
+    var selectedDate = (string)(ViewBag.SelectedDate ?? Model.DateBooked.ToString("yyyy-MM-dd"));
+    var selectedTime = (string)(ViewBag.SelectedTime ?? Model.DateBooked.ToString("HH\\:mm"));
+}
+
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">Edit Booking</h1>
+
+    <form asp-action="Edit" method="post" class="card">
+      @Html.AntiForgeryToken()
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="Id" />
+
+      <h3>Customer</h3>
+      <div>
+        <label>Customer</label>
+        <input value="@($"{Model.CustomerFirstName} {Model.CustomerLastName}")" readonly />
+      </div>
+      <div>
+        <label>Email</label>
+        <input value="@Model.CustomerEmail" readonly />
+      </div>
+      <div>
+        <label>Phone</label>
+        <input value="@Model.CustomerPhone" readonly />
+      </div>
+
+      <h3 style="margin-top:1rem;">Booking</h3>
+      <div>
+        <label asp-for="TableId"></label>
+        <select asp-for="TableId" asp-items="Model.Tables"></select>
+        <span asp-validation-for="TableId"></span>
+      </div>
+
+      <div>
+        <label>Date</label>
+        <input type="date" name="Date" value="@selectedDate" />
+      </div>
+      <div>
+        <label>Time</label>
+        <select name="Time">
+            @foreach (var slot in Model.TimeSlots)
+            {
+                <option value="@slot.Value" selected="@(slot.Value == selectedTime ? "selected" : null)">@slot.Text</option>
+            }
+        </select>
+        <span asp-validation-for="DateBooked"></span>
+      </div>
+
+      <div>
+        <label asp-for="DurationMinutes"></label>
+        <input asp-for="DurationMinutes" type="number" step="15" />
+        <span asp-validation-for="DurationMinutes"></span>
+      </div>
+      <div>
+        <label asp-for="TotalGuests"></label>
+        <input asp-for="TotalGuests" type="number" min="1" />
+        <span asp-validation-for="TotalGuests"></span>
+      </div>
+      <div>
+        <label asp-for="Status"></label>
+        <select asp-for="Status">
+          <option>Pending</option>
+          <option>Confirmed</option>
+          <option>Cancelled</option>
+        </select>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <button type="submit" class="btn">Save</button>
+        <a asp-action="Index" class="btn">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>

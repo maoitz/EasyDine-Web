@@ -1,0 +1,33 @@
+@model EasyDine.Web.ViewModels.Admin.AdminLoginVm
+@{
+    ViewData["Title"] = "Admin Login";
+}
+
+<section class="section">
+    <div class="container" style="max-width:520px;">
+        <div class="card">
+            <h1 class="section-title">Admin sign in</h1>
+
+            @if (!string.IsNullOrEmpty(Model.Error))
+            {
+                <div style="color:#8e2b2b; margin-bottom:.75rem;">@Model.Error</div>
+            }
+
+            <form method="post">
+                <div class="mb-2">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="card" style="width:100%; padding:.6rem;" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" class="card" style="width:100%; padding:.6rem;" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button class="btn" type="submit">Sign in</button>
+            </form>
+        </div>
+    </div>
+</section>

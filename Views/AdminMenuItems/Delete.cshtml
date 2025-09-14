@@ -1,0 +1,16 @@
+@model EasyDine.Web.DTOs.MenuItems.MenuItemResponseDto
+@{
+    ViewData["Title"] = "Delete Menu Item";
+}
+
+<h1 class="section-title">Delete Menu Item</h1>
+
+<div class="card">
+    <p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="btn">Yes, delete</button>
+        <a asp-action="Index" class="btn">Cancel</a>
+    </form>
+</div>

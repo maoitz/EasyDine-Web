@@ -1,0 +1,43 @@
+# Build results
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# Logs
+*.log
+*.tlog
+
+# Test results
+*.trx
+*.coverage
+*.coveragexml
+TestResults/
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Others
+*.cache
+*.dbmdl
+*.bak
+*.swp
+*.tmp
+
+# Publish output
+wwwroot/dist/

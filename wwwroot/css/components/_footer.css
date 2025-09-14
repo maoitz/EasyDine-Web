@@ -1,0 +1,54 @@
+/* === Footer (component) === */
+/* Uses tokens from site.css (:root) */
+
+.site-footer{
+    background: var(--panel);
+    border-top: var(--hairline);
+    padding-block: clamp(var(--space-1), 2.2vw, var(--space-2));
+    color: var(--text);
+}
+
+.footer-inner{
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-columns: repeat(12, minmax(0,1fr));
+    align-items: start;
+}
+
+/* Left: brand + copy */
+.footer-brand{
+    grid-column: span 8;
+    display: inline-flex; align-items: center; gap: .5rem;
+    color: var(--text); text-decoration: none; font-weight: 800;
+}
+.footer-badge{
+    width:28px; height:28px; border-radius:8px;
+    background: rgba(0,0,0,.06);
+    display:grid; place-items:center; font-size:.85rem;
+}
+
+/* Right: nav */
+.footer-nav{
+    grid-column: span 4;
+    display:flex; justify-content:flex-end; align-items:center;
+    gap: 1rem; flex-wrap: wrap;
+}
+.footer-link{
+    color: var(--muted);
+    text-decoration: none;
+}
+.footer-link:hover{ text-decoration: underline; text-underline-offset: 2px; }
+
+.footer-meta{
+    grid-column: span 12;
+    margin-top: var(--space-1);
+    color: var(--muted);
+    font-size: .85rem;
+    display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+}
+
+/* Responsive stack */
+@media (max-width: 992px){
+    .footer-brand{ grid-column: span 12; }
+    .footer-nav{ grid-column: span 12; justify-content:flex-start; }
+}

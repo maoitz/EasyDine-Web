@@ -1,0 +1,17 @@
+/* Subtle paper/noise background you can opt-in per card */
+.paper-soft{
+    position: relative;
+    overflow: hidden;                      /* keep radius clean */
+    box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04);
+}
+.paper-soft::before{
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse at top left, rgba(0,0,0,.02), transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(0,0,0,.02), transparent 60%),
+    url('/images/paper-noise.png');  /* tiny 1–2KB noise tile */
+    background-size: auto, auto, 256px 256px;    /* the noise is subtle & repeats */
+    opacity:.10;                                 /* gentle */
+    mix-blend-mode:multiply;
+    pointer-events:none;
+}

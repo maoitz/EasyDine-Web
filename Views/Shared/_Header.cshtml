@@ -1,0 +1,89 @@
+@using EasyDine.Web.Models
+@using Microsoft.Extensions.Options
+@inject IOptions<HeaderOptions> HeaderCfg
+
+@functions{
+    bool IsActive(string controller, string? action = null) {
+        var routeData = ViewContext.RouteData.Values;
+        var c = (routeData["controller"]?.ToString() ?? "").ToLowerInvariant();
+        var a = (routeData["action"]?.ToString() ?? "").ToLowerInvariant();
+        if (!string.IsNullOrEmpty(action)) return c == controller.ToLower() && a == action.ToLower();
+        return c == controller.ToLower();
+    }
+    string? CurrentAttr(bool active) => active ? "page" : null;
+}
+
+<header class="site-header navbar">
+  <div class="container section pt-0 pb-0">
+    <div class="nav-inner">
+      <!-- Brand (text for now) -->
+      <a href="~/" class="brand" aria-label="Homepage">
+        <span class="brand-badge">★</span>
+        <span>EasyDine</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" asp-controller="Home" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("Home","Index"))">Home</a>
+        <a class="nav-link" asp-controller="Menu" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("Menu"))">Menu</a>
+        <a class="nav-link" asp-controller="About" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("About"))">About</a>
+        <a class="nav-link" asp-controller="Contact" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("Contact"))">Contact</a>
+
+        <!-- Language selector (skeleton) -->
+        <div class="lang-select" role="group" aria-label="Language">
+          <label class="visually-hidden" for="lang">Language</label>
+          <select id="lang" onchange="(function(s){location.search='?lang='+encodeURIComponent(s.value)})(this)">
+            @foreach (var lang in HeaderCfg.Value.Languages ?? new List<string>{ "en", "sv" })
+            {
+              var current = Context.Request.Query["lang"].ToString();
+              <option value="@lang" selected="@(string.Equals(current, lang, System.StringComparison.OrdinalIgnoreCase))">
+                @lang.ToUpperInvariant()
+              </option>
+            }
+          </select>
+        </div>
+      </nav>
+
+      <!-- Mobile trigger -->
+      <button class="hamburger" type="button"
+              aria-label="Toggle menu" aria-controls="mobileMenu" aria-expanded="false">
+        <span aria-hidden="true" style="font-size:1.25rem;">☰</span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="mobile-panel" data-open="false">
+    <div class="container">
+      <nav class="mobile-links" aria-label="Mobile">
+        <a class="mobile-link" asp-controller="Home" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("home","Index"))">Home</a>
+        <a class="mobile-link" asp-controller="Menu" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("menu"))">Menu</a>
+        <a class="mobile-link" asp-controller="About" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("about"))">About</a>
+        <a class="mobile-link" asp-controller="Contact" asp-action="Index"
+           aria-current="@CurrentAttr(IsActive("contact"))">Contact</a>
+
+        <!-- Mobile language selector -->
+        <div class="lang-select mt-2">
+          <label class="visually-hidden" for="lang-m">Language</label>
+          <select id="lang-m" onchange="(function(s){location.search='?lang='+encodeURIComponent(s.value)})(this)">
+            @foreach (var lang in HeaderCfg.Value.Languages ?? new List<string>{ "en", "sv" })
+            {
+              var current = Context.Request.Query["lang"].ToString();
+              <option value="@lang" selected="@(string.Equals(current, lang, System.StringComparison.OrdinalIgnoreCase))">
+                @lang.ToUpperInvariant()
+              </option>
+            }
+          </select>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>

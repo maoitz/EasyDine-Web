@@ -1,0 +1,130 @@
+@model MenuPageVm
+
+@section Head {
+  <title>Menu – EasyDine | Seasonal Italian trattoria dishes</title>
+  <meta name="description" content="Discover EasyDine’s trattoria menu: fresh pasta, rustic mains, and hand-crafted desserts. Seasonal Italian classics made with care." />
+  <link rel="canonical" href="@Url.Action("Index", "Menu", null, Context.Request.Scheme)" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Menu – EasyDine" />
+  <meta property="og:description" content="Hand-rolled pasta and seasonal Italian dishes at EasyDine." />
+  <meta property="og:url" content="@Url.Action("Index", "Menu", null, Context.Request.Scheme)" />
+  <meta property="og:image" content="@Url.Content("~/img/brand/og-default.jpg")" />
+  <meta property="og:image:alt" content="Selection of Italian dishes at EasyDine" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Menu – EasyDine" />
+  <meta name="twitter:description" content="Seasonal Italian trattoria classics at EasyDine." />
+  <meta name="twitter:image" content="@Url.Content("~/img/brand/og-default.jpg")" />
+  <script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@type": "Menu",
+  "name": "EasyDine Menu",
+  "inLanguage": "en",
+  "hasMenuSection": [
+    @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+      Model.Sections.Select(s => new {
+        @type = "MenuSection",
+        name = s.Title,
+        hasMenuItem = s.Items.Select(mi => new {
+          @type = "MenuItem",
+          name = mi.Name,
+          description = mi.Description,
+          offers = new {
+            @type = "Offer",
+            price = mi.Price,
+            priceCurrency = "EUR"
+          }
+        })
+      })
+    ))
+  ]
+}
+</script>
+
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/components/_menu.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/decor/_paper.css" asp-append-version="true" />
+}
+
+@{
+  ViewData["Title"] = "Menu – EasyDine";
+}
+
+<section class="section">
+  <div class="container">
+    <div class="menu-grid">
+
+      <!-- Sticky left column -->
+      <aside class="menu-aside" aria-label="Menu categories">
+        <h1 class="menu-aside-title">Our Menu</h1>
+        <nav class="menu-nav">
+          @foreach (var s in Model.Sections)
+          {
+            <a class="menu-nav-link" href="#@s.Id">@s.Title</a>
+          }
+        </nav>
+      </aside>
+
+      <!-- Right content -->
+      <div class="menu-content">
+        @foreach (var s in Model.Sections)
+        {
+          <section id="@s.Id" class="menu-section">
+            <h2 class="menu-section-title">@s.Title</h2>
+
+            @if (s.Items.Count == 0)
+            {
+              <p class="menu-empty">No items yet.</p>
+            }
+            else
+            {
+              <ul class="menu-list">
+                @foreach (var mi in s.Items)
+                {
+                  <li class="menu-item paper-soft">
+                    @if (!string.IsNullOrWhiteSpace(mi.ImageUrl))
+                    {
+                      <img class="menu-thumb"
+                           src="@mi.ImageUrl"
+                           alt="@mi.Name"
+                           loading="lazy"
+                           width="160"
+                           height="120" />
+                    }
+                    else
+                    {
+                      <div class="menu-thumb menu-thumb--placeholder" aria-hidden="true">🍽</div>
+                    }
+
+                    <div class="menu-details">
+                      <div class="menu-line">
+                        <span class="menu-name">
+                          @mi.Name
+                          @if (mi.IsPopular)
+                          {
+                            <span class="badge-popular" title="Popular">Popular</span>
+                          }
+                        </span>
+                        <span class="menu-price">@mi.Price.ToString("C")</span>
+                      </div>
+                      @if (!string.IsNullOrWhiteSpace(mi.Description))
+                      {
+                        <p class="menu-desc">@mi.Description</p>
+                      }
+                    </div>
+                  </li>
+                }
+              </ul>
+            }
+          </section>
+        }
+      </div>
+    </div>
+  </div>
+</section>

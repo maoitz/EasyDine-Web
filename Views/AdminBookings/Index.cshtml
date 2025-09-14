@@ -1,0 +1,63 @@
+@model IReadOnlyList<EasyDine.Web.DTOs.Bookings.BookingResponseDto>
+@{
+    ViewData["Title"] = "Manage Bookings";
+    var selectedDate = (string)(ViewBag.SelectedDate ?? DateTime.Today.ToString("yyyy-MM-dd"));
+}
+
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Bookings</h1>
+
+        <form method="get" asp-action="Index" style="display:flex; gap:.5rem; align-items:center;">
+            <label for="date">Date</label>
+            <input id="date" name="date" type="date" value="@selectedDate" />
+            <button type="submit" class="btn">Filter</button>
+            <a asp-action="Index" class="btn" style="margin-left:.5rem;">Clear</a>
+        </form>
+
+        <p style="margin-top:1rem;">
+            <a asp-action="Create" class="btn">+ New Booking</a>
+        </p>
+
+        @if (!Model.Any())
+        {
+            <p>No bookings for selected date.</p>
+        }
+        else
+        {
+            <table style="width:100%; margin-top:1rem;">
+                <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Table</th>
+                    <th>Date</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Guests</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var b in Model)
+                {
+                    var endTime = b.DateBooked.AddMinutes(b.DurationMinutes);
+                    <tr>
+                        <td>@($"{b.CustomerFirstName} {b.CustomerLastName}")</td>
+                        <td>@b.TableNumber</td>
+                        <td>@b.DateBooked.ToString("yyyy-MM-dd")</td>
+                        <td>@b.DateBooked.ToString("HH\\:mm")</td>
+                        <td>@endTime.ToString("HH\\:mm")</td>
+                        <td>@b.TotalGuests</td>
+                        <td>@b.Status</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@b.Id">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@b.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</section>

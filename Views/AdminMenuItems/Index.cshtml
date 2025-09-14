@@ -1,0 +1,48 @@
+@model IReadOnlyList<EasyDine.Web.DTOs.MenuItems.MenuItemResponseDto>
+@{
+    ViewData["Title"] = "Manage Menu Items";
+}
+
+<section class="section">
+    <div class="container">
+        <h1 class="section-title">Menu Items</h1>
+
+        @if (!Model.Any())
+        {
+            <p>No menu items found.</p>
+        }
+        else
+        {
+            <table style="width:100%; margin-top:1rem; border-collapse:collapse;">
+                <thead>
+                <tr>
+                    <th style="text-align:left;">Name</th>
+                    <th style="text-align:left;">Category</th>
+                    <th style="text-align:left;">Price</th>
+                    <th style="text-align:left;">Popular</th>
+                    <th style="text-align:left;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Category</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@(item.IsPopular ? "✅" : "—")</td>
+                        <td>
+                            <a asp-controller="AdminMenuItems" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-controller="AdminMenuItems" asp-action="ConfirmDelete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+
+        <div style="margin-top:1rem;">
+            <a class="btn" asp-controller="AdminMenuItems" asp-action="Create">+ Add New Item</a>
+        </div>
+    </div>
+</section>

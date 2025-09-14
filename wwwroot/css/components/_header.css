@@ -1,0 +1,134 @@
+/* === Header (component) === */
+/* Uses tokens from site.css (:root) */
+
+.site-header{
+    background: var(--panel);
+    background-image: url('../../images/wood-texture.jpg');
+    background-size: cover;
+    background-position: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    isolation: isolate; /* overlay stays contained */
+    border-bottom: var(--hairline);
+}
+.site-header::before{
+    content:"";
+    position:absolute; inset:0;
+    background: rgba(0,0,0,.35); /* darken wood for legibility */
+    pointer-events:none;
+}
+.site-header .container{ position: relative; z-index: 1; }
+
+/* Nav bar row */
+.navbar{ background-color: transparent; border-bottom: none; }
+.nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: var(--space-2);
+    min-height: 56px;
+}
+
+/* Brand */
+.brand{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-weight: 800; letter-spacing:.2px; text-decoration:none; color:#fff;
+}
+.brand-badge{
+    width:28px; height:28px; border-radius:8px;
+    background: rgba(255,255,255,.12);
+    display:grid; place-items:center; font-size:.85rem; color:#fff;
+}
+
+/* Desktop links */
+.nav-links{
+    display:flex; align-items:center; gap: clamp(.75rem, 1.2vw, 1.25rem);
+}
+.nav-link{
+    color:#fff;
+    text-decoration:none;
+    padding:.5rem .25rem;
+    border-radius:.5rem;
+}
+.nav-link:hover{ text-decoration:underline; text-underline-offset:2px; }
+
+/* Active link: underline (no background box) */
+.nav-link[aria-current="page"]{
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+}
+
+/* CTA (currently not used — kept minimal for future) */
+/*
+.nav-cta{
+  margin-left:.25rem;
+  padding:.6rem .9rem;
+  border-radius:.6rem;
+  background: var(--brand);
+  color:#fff; text-decoration:none; font-weight:700;
+}
+*/
+
+/* Hamburger & mobile menu */
+.hamburger{
+    display:none;
+    place-items:center;
+    width:44px; height:44px;
+    padding:0; line-height:0;
+    background:none; border:0; border-radius:.5rem; color:#fff;
+}
+.hamburger:focus{ outline:2px solid var(--brand); outline-offset:2px; }
+
+.mobile-panel{
+    display:none;
+    position:relative;
+    background: transparent; /* inherits wood with overlay below */
+    border-top: none;
+    padding: var(--space-2);
+}
+.mobile-panel::before{
+    content:""; position:absolute; inset:0;
+    background: rgba(0,0,0,.45); z-index:0;
+}
+.mobile-panel .container{ position:relative; z-index:1; }
+
+.mobile-links{
+    display:grid; gap:.5rem;
+}
+.mobile-link{
+    color:#fff; text-decoration:none; padding:.5rem; border-radius:.5rem;
+}
+.mobile-link:hover{ text-decoration:underline; text-underline-offset:2px; }
+.mobile-link[aria-current="page"]{
+    text-decoration: underline; text-underline-offset:2px; font-weight:600;
+}
+
+/* Language selector */
+.lang-select{
+    display:flex; align-items:center; gap:.5rem; color:#fff;
+}
+.lang-select select{
+    appearance:none;
+    background: rgba(255,255,255,.1);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:.5rem;
+    padding:.4rem .6rem;
+}
+.lang-select select:focus{ outline:2px solid var(--brand); outline-offset:2px; }
+
+/* Responsive */
+@media (max-width: 992px){
+    .nav-links{ display:none; }
+    .hamburger{ display:inline-grid; }
+    .mobile-panel[data-open="true"]{ display:block; }
+}
+
+/* A11y helper (duplicated here for component portability) */
+.visually-hidden{
+    position:absolute !important;
+    width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
